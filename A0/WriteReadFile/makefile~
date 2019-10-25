@@ -1,0 +1,23 @@
+OBJSC   = WriteToFileCont.o ReadFileCont.o 
+OBJSNC   = WriteToFileNonCont.o ReadFileNonCont.o
+RMWF = writeOutputContig writeOutputNonContig
+CC     = gcc
+
+OutputC: ReadFileCont.o
+	$(CC) -o $@ ReadFileCont.o
+
+OutputNC: ReadFileNonCont.o
+	$(CC) -o $@ ReadFileNonCont.o
+
+writeC: WriteToFileCont.o
+	$(CC) -o $@ WriteToFileCont.o
+
+writeNO: WriteToFileNonCont.o
+	$(CC) -o $@ WriteToFileNonCont.o
+
+$(OBJSC): WriteToFileCont.c ReadFileCont.c
+
+$(OBJSNC): WriteToFileNonCont.c ReadFileNonCont.c
+
+clear:
+	rm -f *.o writeC writeNC OutputC OutputNC $(RMWF) 

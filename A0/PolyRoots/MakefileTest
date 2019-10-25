@@ -1,0 +1,16 @@
+CC = gcc
+INCLUDES = -I/home/hpcuser096/local_flint/include -I/home/hpcuser096/local_arb/include
+LFLAGS = -L/home/hpcuser096/local_flint/lib -L/home/hpcuser096/local_arb/lib
+LIBS = -lflint -larb
+SRCS = poly_roots.c
+OBJS = $(SRCS:.c=.o)
+MAIN = output
+
+@(MAIN): @(OBJS)
+	$(CC) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+clear:
+	rm *.o output

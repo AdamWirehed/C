@@ -1,0 +1,17 @@
+CC = gcc
+PROG = seperatefile
+SUB = mul_cpx_seperatefile
+
+.PHONY: all
+
+all: $(PROG) $(PROG).o
+
+$(PROG): $(PROG).o $(SUB).o
+	$(CC) -o $@ $(PROG).o $(SUB).o
+
+$(PROG).o: $(PROG).c $(SUB).h
+
+$(SUB).o: $(SUB).c $(SUB).h
+
+clean:
+	rm -f *.o

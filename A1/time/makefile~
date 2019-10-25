@@ -1,0 +1,14 @@
+CC = gcc
+PROG = testTime
+
+$(PROG)O0.s: $(PROG).o
+	$(CC) -S $(PROG).o -O0
+
+
+$(PROG).o: $(PROG).c
+	$(CC) -c $(PROG).c
+
+
+
+clean:
+	rm *.o *.s $(PROG)O0 $(PROG)O1 $(PROG)O2 $(PROG)O3 $(PROG)Os $(PROG)Og

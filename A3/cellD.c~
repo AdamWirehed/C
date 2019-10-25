@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+char* filename = "cell_e4";
+
+int main(int argc, char const *argv[])
+{   
+    int n_threads;
+
+    if(argc != 2){
+        printf("\nArgument count not equal to 2. Exiting.\n");
+    }
+    else {
+        n_threads = atoi(argv[1]+2);
+    }
+
+    FILE* fpr = fopen(filename, "r");
+    int count;
+    char c;
+    // Extract characters from file and store in character c 
+    for (c = getc(fpr); c != EOF; c = getc(fpr)){
+        if (c == '\n'){ // Increment count if this character is newline 
+            ++count;
+        }
+    }
+
+    fclose(fpr);
+    int nrCells;
+    nrCells = count + 1; // No \n on last row
+    printf("Number of cells: %d\n", nrCells);
+
+    float x[nrCells];
+    float y[nrCells];
+    float z[nrCells];
+
+    FILE* fp = fopen(filename, "r");
+    
+    float xt;
+    float yt;
+    float zt;
+    
+    for(size_t ix = 0; ix < nrCells; ++ix){
+        fscanf(fp, "%f %f %f", &xt, &yt, &zt);
+        x[ix] = (xt*1000);
+        y[ix] = (yt*1000);
+        z[ix] = (zt*1000);
+    }
+
+    fclose(fp);
+
+    // Maximum distance in a 3d system (-nrCells, nrCells) for x,y,z
+    unsigned short maxDist = 3465;
+    unsigned int distCounter[3465] = {0};
+
+    float dx;
+    float dy;
+    float dz;
+
+    // (nrCells-1) = we don't need to have the last point as standing point
+    for(size_t isp = 0; isp < (nrCells-1); ++isp){
+        for(size_t icp = (isp+1); icp < nrCells; ++icp){
+            dx = x[isp] - x[icp];
+            dy = y[isp] - y[icp];
+            dz = z[isp] - z[icp];
+            ++distCounter[(unsigned short) (sqrtf((dx*dx + dy*dy + dz*dz))*0.1)];
+        }
+    }
+    
+    printf("Distance | Occurances\n");
+    printf("---------------------\n");
+    for(size_t ix = 0; ix < maxDist; ++ix){
+        printf("%05.2f | %d\n", (float)ix*0.01, distCounter[ix]);
+    }
+    printf("Number of cells: %d\n", nrCells);
+
+    return 0;
+}

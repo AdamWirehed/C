@@ -1,0 +1,16 @@
+CC = gcc
+OBJS = cellD
+CFLAGS = -O2
+
+.PHONY: all
+
+all: $(OBJS) $(OBJS).o
+
+$(OBJS): $(OBJS).o
+	$(CC) -o $@ $(OBJS).o $(CFLAGS) -lm 
+
+$(OBJS).o: $(OBJS).c
+	$(CC) -c $(OBJS).c
+
+clean:
+	rm -f *.o *.ppm $(OBJS)

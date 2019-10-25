@@ -1,0 +1,11 @@
+CC = gcc
+PROG = locality
+
+$(PROG)O2: $(PROG).o
+	$(CC) -o $@ -O2 $(PROG).o
+
+$(PROG)O0: $(PROG).o
+	$(CC) -o $@ -O0 $(PROG).o
+
+$(PROG).o: $(PROG).c
+	$(CC) -c $(PROG).c
